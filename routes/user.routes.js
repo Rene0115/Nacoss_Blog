@@ -25,7 +25,7 @@ const userRouter = express.Router();
 userRouter.post("/signup", [validator(validateUserSignUpSchema)], userController.create);
 
 userRouter.post("/login", [validator(validateUserSignInSchema)], userController.loginUser);
-
+userRouter.get("/verifiedUser", userController.getVerifiedUser);
 userRouter.get("/:id", userController.fetchUserDetails);
 userRouter.put("/image", checkAuth, upload.single('photo'), userController.updateUserPhoto);
 
