@@ -6,7 +6,7 @@ import userRouter from './user.routes.js';
 
 const router = express.Router();
 
-router.use('/post', postRouter);
+router.use('/posts', postRouter);
 router.use('/users', userRouter);
 
 export default router;

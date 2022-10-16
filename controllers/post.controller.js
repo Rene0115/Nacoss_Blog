@@ -50,7 +50,11 @@ class PostController {
 
       updateData.image = response.url;
       const posts = await postService.updatePost(_id, updateData);
-      return res.status(201).send({ status: true, message: 'post published successfully', body: posts });
+      return res.status(201).send({
+        sucess: true,
+        message: 'post published successfully',
+        body: posts
+      });
     }
     throw new Error('Unable to create draft');
   }
