@@ -26,6 +26,10 @@ class UserService {
     const user = await userModel.findOne(filter);
     return user;
   }
+  async getVerified() {
+    const verifiedUser = await userModel.find({ verified: true });
+    return verifiedUser;
+  }
 }
 
 export default new UserService();

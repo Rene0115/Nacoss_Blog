@@ -25,7 +25,7 @@ class PostController {
 
     if (!_id) {
       // if no post id exists create post(draft) with id
-      const post = await postService.postBlog(updateData);
+      const post = await postService.createPost(updateData);
       return res.status(201).send({ status: true, message: 'post created successfully', body: post });
     }
     if (_id && !isPublished) {

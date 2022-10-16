@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable quotes */
 /* eslint-disable import/no-duplicates */
 /* eslint-disable import/extensions */

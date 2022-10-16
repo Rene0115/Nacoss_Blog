@@ -4,7 +4,7 @@ import fsPromises from 'fs/promises';
 import postModel from '../models/post.model.js';
 
 class PostService {
-  async postBlog(data) {
+  async createPost(data) {
     const post = await postModel.create(data);
     return post;
   }
