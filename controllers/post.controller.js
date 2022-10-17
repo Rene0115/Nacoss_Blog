@@ -11,52 +11,18 @@ import postvalidator from '../validators/post.validator.js';
 // import { deleteFile } from '../services/post.service'
 
 class PostController {
-  async createPost(req, res, next) {
-    const { _id, isPublished } = req.body;
-
-    const data = req.body;
-    data.userId = req.userData._id;
-
-    // || req.file?.originalname;
-    const updateData = _.omit(data, '_id');
-
-    // file upload only happens when the post ready to be published
-    // let post;
-
-    if (!_id) {
-      // if no post id exists create post(draft) with id
-      const post = await postService.createPost(updateData);
-      return res.status(201).send({ status: true, message: 'post created successfully', body: post });
+  async createPost(req, res) {
+    const data = {
+      title: req.body.title,
+      category: req.body.category,
+      body: req.body.body,
+      userId: req.user._id
+    };
+    const post = await postService.createPost(data);
+    if (!post) {
+      return res.send('something went wrong');
     }
-    if (_id && !isPublished) {
-      // if post exists and isPublished status is set to false update post(draft)
-      const post = await postService.updatePost(_id, _.omit(updateData, 'isPublished'));
-      return res.status(201).send({ status: true, message: 'post updated successfully', body: post });
-    } if (_id && isPublished) {
-      // post exists and isPublished status is set to true update post(draft)
-      await postvalidator.validateAsync(updateData);
-      // console.log(validated);
-      // upload post image to cloudinary
-      if (!('file' in req)) {
-        return res.status(404).send({
-          success: false,
-          message: 'no file found, please attached a file'
-        });
-      }
-
-      const response = await cloudinary.uploadImage(req.file.path);
-
-      await postService.deleteFile(req.file);
-
-      updateData.image = response.url;
-      const posts = await postService.updatePost(_id, updateData);
-      return res.status(201).send({
-        sucess: true,
-        message: 'post published successfully',
-        body: posts
-      });
-    }
-    throw new Error('Unable to create draft');
+    return res.status(200).send({ data: post });
   }
 
   async getPosts(req, res) {
