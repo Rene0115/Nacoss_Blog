@@ -111,30 +111,32 @@ class PostController {
     });
   }
 
-  async fetchUserArticle(id) {
-    const userArticle = await postService.getUserPostById(id);
-    return userArticle;
-  }
-
   async fetchAllUserPosts(req, res) {
     const userPosts = await postService.getUserPostById(req.params.id);
     if (_.isEmpty(userPosts)) {
-      return res
-        .status(404)
-        .send({ status: true, message: 'this user has no posts' });
+      return res.status(404).send({
+        status: true,
+        message: 'this user has no posts'
+      });
     }
-    return res.status(200).send({ status: true, body: userPosts });
+    return res.status(200).send({
+      status: true,
+      body: userPosts
+    });
   }
 
   async fetchPostById(req, res) {
     const posts = await postService.getPostById(req.params.id);
     if (_.isEmpty(posts)) {
-      return res.status(404).send({ status: false, body: 'no post found' });
+      return res.status(404).send({
+        status: false,
+        body: 'no post found'
+      });
     }
-    if (req.userData === undefined || req.userData !== req.posts.userId) {
-      const update = await postService.updatePost(req.params.id, { views: posts.views + 1 });
-    }
-    return res.status(200).send({ status: true, body: posts });
+    return res.status(200).send({
+      status: true,
+      body: posts
+    });
   }
 }
 export default new PostController();
