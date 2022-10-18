@@ -14,6 +14,11 @@ class UserService {
     return user;
   }
 
+  async getUserById(id) {
+    const user = await userModel.findOne({ _id: id });
+    return user;
+  }
+
   async fetchUserDetails(id) {
     const user = await userModel.findOne({ _id: id });
     return user;

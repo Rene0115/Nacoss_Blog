@@ -87,6 +87,20 @@ class UserController {
     });
   }
 
+  async getUserById(req, res) {
+    const user = await UserService.getUserById(req.body.id);
+    if (_.isEmpty(user)) {
+      return res.status(200).send({
+        success: true,
+        message: 'No user with this id exits'
+      });
+    }
+    return res.status(200).send({
+      success: true,
+      data: user
+    });
+  }
+
   async fetchUserDetails(req, res) {
     const articles = await postController.fetchUserArticle(req.params.id);
     const comments = await commentController.getUsersComments(req.params.id);

@@ -26,7 +26,7 @@ class PostController {
   }
 
   async getPosts(req, res) {
-    const post = await postService.getPost();
+    const post = await postService.getPosts();
     if (_.isEmpty(post)) {
       return res.status(200).send({ staus: true, message: 'no posts found' });
     }
@@ -36,7 +36,7 @@ class PostController {
     });
   }
 
-  async articleByTitle(req, res) {
+  async postByTitle(req, res) {
     const article = await postService.findByTitle(req.params.title);
 
     if (!article) {
@@ -65,6 +65,20 @@ class PostController {
     res.status(200).send({
       status: true,
       body: post
+    });
+  }
+
+  async getUserById(req, res) {
+    const post = await postService.getPostById(req.params.id);
+    if (_.isEmpty(post)) {
+      return res.status(200).send({
+        success: true,
+        message: 'No user with this id exits'
+      });
+    }
+    return res.status(200).send({
+      success: true,
+      data: post
     });
   }
 
