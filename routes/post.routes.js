@@ -9,7 +9,7 @@ import checkAuth from '../middlewares/auth.middlewares.js';
 
 const postRouter = express.Router();
 
-postRouter.get('/:title', postController.articleByTitle);
+// postRouter.get('/:title', postController.articleByTitle);
 postRouter.patch('/:postid', postController.updateArticle);
 postRouter.post('/createpost', [checkAuth, upload.single('image'), validator(postValidator)], postController.createPost);
 
