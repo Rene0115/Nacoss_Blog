@@ -3,26 +3,31 @@
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-unused-vars */
-// import cloudinary from 'cloudinary';
+import cloudinary from 'cloudinary';
 import _ from 'lodash';
-import cloudinary from '../config/cloudinary.config.js';
 import postService from '../services/post.services.js';
-import postvalidator from '../validators/post.validator.js';
-// import { deleteFile } from '../services/post.service'
 
 class PostController {
   async createPost(req, res) {
-    const data = {
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET
+    });
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+    const body = {
       title: req.body.title,
       category: req.body.category,
+      userId: req.user._id,
       body: req.body.body,
-      userId: req.user._id
+      image: result.url
     };
-    const post = await postService.createPost(data);
-    if (!post) {
-      return res.send('something went wrong');
-    }
-    return res.status(200).send({ data: post });
+    const post = await postService.createPost(body);
+    return res.status(201).send({
+      status: true,
+      message: 'post created successfully',
+      body: post
+    });
   }
 
   async getPosts(req, res) {
@@ -37,18 +42,18 @@ class PostController {
   }
 
   async postByTitle(req, res) {
-    const article = await postService.findByTitle(req.params.title);
+    const post = await postService.findByTitle(req.params.title);
 
-    if (!article) {
+    if (!post) {
       return res.status(404).send({
         success: false,
-        body: 'Could not find the requested article'
+        body: 'Could not find the requested post'
       });
     }
 
     return res.status(201).send({
       success: true,
-      body: article
+      body: post
     });
   }
 
