@@ -1,7 +1,6 @@
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 import fsPromises from 'fs/promises';
-import { v2 as cloudinary } from 'cloudinary';
 import postModel from '../models/post.model.js';
 
 class PostService {
@@ -43,13 +42,6 @@ class PostService {
   async findAndDeletePostById(id) {
     const postId = await postModel.findByIdAndDelete(id);
     return postId;
-  }
-
-  async uploadImage({ file }) {
-    const response = await cloudinary.uploader.upload(file.path, {
-      resource_type: 'image',
-      folder: 'pictures'
-    });
   }
 
   async updatePost(id, data) {
