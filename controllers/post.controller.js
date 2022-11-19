@@ -26,7 +26,7 @@ class PostController {
     return res.status(201).send({
       status: true,
       message: 'post created successfully',
-      body: post
+      data: post
     });
   }
 
@@ -37,7 +37,7 @@ class PostController {
     }
     return res.status(200).send({
       status: true,
-      body: post
+      data: post
     });
   }
 
@@ -47,13 +47,13 @@ class PostController {
     if (!post) {
       return res.status(404).send({
         success: false,
-        body: 'Could not find the requested post'
+        message: 'Could not find post'
       });
     }
 
     return res.status(201).send({
       success: true,
-      body: post
+      data: post
     });
   }
 
