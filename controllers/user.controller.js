@@ -30,8 +30,8 @@ class UserController {
     const data = {
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 10),
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
       image: result.url
     };
     const newUser = await userService.create(data);
@@ -41,7 +41,7 @@ class UserController {
 
     const response = {
       body: {
-        name: `${req.body.firstName} ${req.body.lastName}`,
+        name: `${req.body.firstname} ${req.body.lastname}`,
         intro: 'Email Verification Link',
         action: {
           instructions:
