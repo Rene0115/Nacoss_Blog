@@ -27,9 +27,7 @@ userRouter.post("/signup", [validator(validateUserSignUpSchema)], userController
 userRouter.post("/login", [validator(validateUserSignInSchema)], userController.loginUser);
 userRouter.get("/verified-user", userController.getVerifiedUser);
 userRouter.get("/get-by-id", userController.getUserById);
-userRouter.get("/:id", userController.fetchUserDetails);
 userRouter.put("/image", checkAuth, upload.single('photo'), userController.updateUserPhoto);
-userRouter.patch("password-reset", userController.resetPassword);
 
 userRouter.get('/verify/:token', userController.verify);
 
