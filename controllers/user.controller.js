@@ -34,6 +34,12 @@ class UserController {
       lastname: req.body.lastname,
       image: result.url
     };
+    if (!(data.email || data.firstname || data.lastname || data.password)) {
+      res.status(404).send({
+        success: false,
+        message: 'must supply email, password, firstname and lastname'
+      });
+    }
     const newUser = await userService.create(data);
 
     const verificationToken = newUser.generateToken();
