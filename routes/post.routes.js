@@ -4,22 +4,13 @@ import express from 'express';
 import postController from '../controllers/post.controller.js';
 import validator from '../validators/validator.js';
 import postValidator from '../validators/post.validator.js';
-import checkAuth from '../middlewares/auth.middlewares.js';
+import authentication from '../middlewares/auth.middlewares.js';
 import store from '../config/multer.config.js';
 
 const postRouter = express.Router();
 
-// postRouter.get('/:title', postController.articleByTitle);
-postRouter.patch('/:postid', postController.updateArticle);
-postRouter.post('/createpost', [checkAuth, store.single('image'), validator(postValidator)], postController.createPost);
-
-postRouter.get('/', postController.getPosts);
-postRouter.get('/category/:category', postController.getPostByCategories);
-
-// postRouter.post('/comments', checkAuth, validator(commentvalidator),
-// commentController.postComments);
-// postRouter.get('/comments/:id', commentController.getComments);
-postRouter.get('/id/:id', postController.fetchPostById);
+postRouter.post('/createpost', [authentication, store.single('image'), validator(postValidator)], postController.createPost);
 postRouter.delete('/:id', postController.deletePost);
+postRouter.post('/like', [authentication], postController.like);
 
 export default postRouter;
