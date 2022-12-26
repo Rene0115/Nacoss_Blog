@@ -13,6 +13,13 @@ import userService from '../services/user.services.js';
 dotenv.config();
 class UserController {
   async create(req, res) {
+    cloudinary.config({
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET
+    });
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
+
     const user = await userService.findByEmail(req.body);
     if (!_.isEmpty(user)) {
       return res.status(400).send({
@@ -24,7 +31,8 @@ class UserController {
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 10),
       firstName: req.body.firstName,
-      lastName: req.body.lastName
+      lastName: req.body.lastName,
+      image: result.url
     };
     const newUser = await userService.create(data);
 
