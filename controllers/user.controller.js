@@ -9,9 +9,6 @@ import cloudinary from 'cloudinary';
 import dotenv from 'dotenv';
 import { transporter, mailGenerator } from '../config/mailer.config.js';
 import userService from '../services/user.services.js';
-import postController from './post.controller.js';
-import commentController from './comment.controller.js';
-import validateEmail from '../validators/email.validator.js';
 
 dotenv.config();
 class UserController {
@@ -24,10 +21,8 @@ class UserController {
       });
     }
     const data = {
-
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 10),
-      confirmPassword: req.body.password,
       firstName: req.body.firstName,
       lastName: req.body.lastName
     };
@@ -71,13 +66,19 @@ class UserController {
   async loginUser(req, res) {
     const user = await userService.findByEmail(req.body);
     if (_.isEmpty(user)) {
-      return res.status(404).send({ success: false, body: 'user does not exist' });
+      return res.status(404).send({
+        success: false,
+        body: 'user does not exist'
+      });
     }
     const verifyPassword = bcrypt.compareSync(req.body.password, user.password);
     if (!verifyPassword) {
-      return res.status(400).send({ success: false, message: 'email or password is invalid' });
+      return res.status(400).send({
+        success: false,
+        message: 'email or password is invalid'
+      });
     }
-    const token = jwt.sign({ _id: user._id, email: user.email }, process.env.TOKEN_SECRET, { expiresIn: '200h', algorithm: 'HS512' });
+    const token = jwt.sign({ _id: user._id, email: user.email }, process.env.TOKEN_SECRET, { expiresIn: '24h', algorithm: 'HS512' });
     return res.status(200).send({
       success: true,
       body: {
@@ -85,20 +86,6 @@ class UserController {
         token,
         data: user
       }
-    });
-  }
-
-  async getUserById(req, res) {
-    const user = await userService.getUserById(req.body.id);
-    if (_.isEmpty(user)) {
-      return res.status(200).send({
-        success: true,
-        message: 'No user with this id exits'
-      });
-    }
-    return res.status(200).send({
-      success: true,
-      data: user
     });
   }
 

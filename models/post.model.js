@@ -3,7 +3,6 @@ import mongoose from 'mongoose';
 const postSchema = mongoose.Schema({
   title: {
     type: String
-
   },
 
   views: {
@@ -11,8 +10,7 @@ const postSchema = mongoose.Schema({
     type: Number
   },
   category: {
-    type: String,
-    enum: ['politics', 'entertainment', 'education', 'technology', 'sports', 'news']
+    type: String
   },
   body: {
     type: String
@@ -24,10 +22,6 @@ const postSchema = mongoose.Schema({
   },
   image: {
     type: String
-  },
-  isPublished: {
-    type: Boolean,
-    default: false
   }
 
 }, { timestamps: true });

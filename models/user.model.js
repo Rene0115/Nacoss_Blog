@@ -24,7 +24,6 @@ const user = new mongoose.Schema({
     required: true
   },
   photo: {
-
     type: String
   },
   verified: {

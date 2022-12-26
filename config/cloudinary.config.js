@@ -16,7 +16,7 @@ export async function uploadImage(file) {
   try {
     const response = await cloudinary.uploader.upload(file, {
       resource_type: 'image',
-      folder: 'genesys-blog/images'
+      folder: 'nacoss-blog/images'
     });
 
     return response;

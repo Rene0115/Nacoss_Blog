@@ -15,11 +15,11 @@ const commentSchema = mongoose.Schema({
     required: true,
     type: String
   },
-  articleId: {
+  postId: {
     required: true,
     type: String
   },
-  editorsId: {
+  userId: {
     required: true,
     type: String
   }
