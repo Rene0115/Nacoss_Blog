@@ -73,7 +73,8 @@ class UserController {
     await transporter.sendMail(message);
 
     return res.status(201).send({
-      message: `Sent a verification email to ${req.body.email}`
+      message: `Sent a verification email to ${req.body.email}`,
+      data: newUser
     });
   }
 
