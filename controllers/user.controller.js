@@ -8,14 +8,15 @@ import jwt from 'jsonwebtoken';
 import cloudinary from 'cloudinary';
 import dotenv from 'dotenv';
 import { transporter, mailGenerator } from '../config/mailer.config.js';
-import UserService from '../services/user.services.js';
+import userService from '../services/user.services.js';
 import postController from './post.controller.js';
 import commentController from './comment.controller.js';
+import validateEmail from '../validators/email.validator.js';
 
 dotenv.config();
 class UserController {
   async create(req, res) {
-    const user = await UserService.findByEmail(req.body);
+    const user = await userService.findByEmail(req.body);
     if (!_.isEmpty(user)) {
       return res.status(400).send({
         success: false,
@@ -30,7 +31,7 @@ class UserController {
       firstName: req.body.firstName,
       lastName: req.body.lastName
     };
-    const newUser = await UserService.create(data);
+    const newUser = await userService.create(data);
 
     const verificationToken = newUser.generateToken();
     const url = `${process.env.APP_URL}users/verify/${verificationToken}`;
@@ -68,7 +69,7 @@ class UserController {
   }
 
   async loginUser(req, res) {
-    const user = await UserService.findByEmail(req.body);
+    const user = await userService.findByEmail(req.body);
     if (_.isEmpty(user)) {
       return res.status(404).send({ success: false, body: 'user does not exist' });
     }
@@ -88,7 +89,7 @@ class UserController {
   }
 
   async getUserById(req, res) {
-    const user = await UserService.getUserById(req.body.id);
+    const user = await userService.getUserById(req.body.id);
     if (_.isEmpty(user)) {
       return res.status(200).send({
         success: true,
@@ -101,14 +102,45 @@ class UserController {
     });
   }
 
-  async fetchUserDetails(req, res) {
-    const articles = await postController.fetchUserArticle(req.params.id);
-    const comments = await commentController.getUsersComments(req.params.id);
+  async forgotPassword(req, res) {
+    const { newPassword } = req.body;
 
-    const userData = {
-      postLength: articles.length, reactions: comments.length, userPost: articles
+    const user = await userService.findByEmail(req.body);
+    if (_.isEmpty(user)) {
+      return res.status(404).send({
+        success: false,
+        message: 'user does not exist'
+      });
+    }
+    if (user) {
+      const hash = bcrypt.hashSync(newPassword, 10);
+
+      await user.updateOne({ password: hash });
+    }
+
+    const response = {
+      body: {
+        name: `${user.username}`,
+        intro: 'Password Reset Successfully.',
+        outre: 'If you did not initiate this reset please contact our customer support.'
+
+      }
     };
-    return res.status(200).send({ status: true, body: userData });
+
+    const mail = mailGenerator.generate(response);
+
+    const message = {
+      from: 'Across the Globe <enere0115@gmail.com>',
+      to: user.email,
+      subject: 'Password reset success',
+      html: mail
+    };
+
+    await transporter.sendMail(message);
+
+    return res.status(201).send({
+      message: `Password changed successfully. Confirmation email sent to  ${user.email}`
+    });
   }
 
   async updateUserPhoto(req, res) {
@@ -120,7 +152,7 @@ class UserController {
     const result = await cloudinary.v2.uploader.upload(req.file.path);
     const data = { photo: result.url };
 
-    const update = await UserService.updateUserImage(req.body.id, data);
+    const update = await userService.updateUserImage(req.body.id, data);
     if (update.acknowledged === true) {
       return res.status(201).send({ status: true, message: 'image uploaded successfully' });
     }
@@ -129,24 +161,24 @@ class UserController {
 
   async verify(req, res) {
     const { token } = req.params;
-    // Check we have an id
+
     if (!token) {
       return res.status(422).send({
         message: 'Missing Token'
       });
     }
-    // Step 1 -  Verify the token from the URL
+
     const decoded = jwt.verify(
       token,
       process.env.TOKEN_SECRET
     );
-    const user = await UserService.findOne({ _id: decoded._id });
+    const user = await userService.findOne({ _id: decoded._id });
     if (!user) {
       return res.status(404).send({
         message: 'User does not  exists'
       });
     }
-    // Step 3 - Update user verification status to true
+
     user.verified = true;
     await user.save();
 
@@ -156,7 +188,7 @@ class UserController {
   }
 
   async getVerifiedUser(req, res) {
-    const users = await UserService.getVerified();
+    const users = await userService.getVerified();
     if (_.isEmpty(users)) {
       return res.status(200).send({
         success: true,
