@@ -42,7 +42,10 @@ class UserController {
     }
     const newUser = await userService.create(data);
 
+    await newUser.updateOne({ image: result.url });
+
     const verificationToken = newUser.generateToken();
+
     const url = `${process.env.APP_URL}/users/verify/${verificationToken}`;
 
     const response = {
@@ -74,7 +77,8 @@ class UserController {
 
     return res.status(201).send({
       message: `Sent a verification email to ${req.body.email}`,
-      data: newUser
+      data: newUser,
+      image: result.url
     });
   }
 
