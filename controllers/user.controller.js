@@ -136,7 +136,7 @@ class UserController {
     const mail = mailGenerator.generate(response);
 
     const message = {
-      from: 'Across the Globe <enere0115@gmail.com>',
+      from: 'Nacoss Blog <enere0115@gmail.com>',
       to: user.email,
       subject: 'Password reset success',
       html: mail
