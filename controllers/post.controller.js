@@ -15,13 +15,20 @@ class PostController {
       api_secret: process.env.API_SECRET
     });
     const result = await cloudinary.v2.uploader.upload(req.file.path);
-    const body = {
+    const data = {
       title: req.body.title,
       userId: req.user._id,
       body: req.body.body,
       image: result.url
     };
-    const post = await postService.createPost(body);
+
+    if (req.user.verified === false) {
+      return res.status(400).send({
+        success: false,
+        message: 'Verify your account before attempting to create a post'
+      });
+    }
+    const post = await postService.createPost(data);
     return res.status(201).send({
       status: true,
       message: 'post created successfully',

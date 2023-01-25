@@ -17,7 +17,7 @@ export const transporter = nodemailer.createTransport({
 export const mailGenerator = new Mailgen({
   theme: 'default',
   product: {
-    name: 'Across the Globe',
+    name: 'Nacoss Blog',
     link: 'https://www.atg.world/'
   }
 });
