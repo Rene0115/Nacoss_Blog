@@ -5,22 +5,22 @@ import jwt from 'jsonwebtoken';
 const user = new mongoose.Schema({
 
   email: {
-    type: 'String',
+    type: String,
     required: true,
     unique: true
   },
   password: {
-    type: 'String',
+    type: String,
     required: true
 
   },
   firstname: {
-    type: 'String',
+    type: String,
     required: true
   },
 
   lastname: {
-    type: 'String',
+    type: String,
     required: true
   },
   photo: {
@@ -29,6 +29,11 @@ const user = new mongoose.Schema({
   verified: {
     type: Boolean,
     default: false
+  },
+  username: {
+    type: String,
+    required: true,
+    unique: true
   }
 }, { timestamps: true });
 

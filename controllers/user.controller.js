@@ -19,6 +19,22 @@ class UserController {
       api_secret: process.env.API_SECRET
     });
     const result = await cloudinary.v2.uploader.upload(req.file.path);
+    const data = {
+      email: req.body.email.toLowerCase(),
+      password: bcrypt.hashSync(req.body.password, 10),
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      image: result.url,
+      username: req.body.username
+    };
+    const username = await userService.findByUsername(req.body);
+
+    if (username) {
+      return res.status(200).send({
+        success: true,
+        message: 'Username already exists.'
+      });
+    }
 
     const user = await userService.findByEmail(req.body);
     if (!_.isEmpty(user)) {
@@ -27,17 +43,10 @@ class UserController {
         message: 'User already exists'
       });
     }
-    const data = {
-      email: req.body.email,
-      password: bcrypt.hashSync(req.body.password, 10),
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
-      image: result.url
-    };
-    if (!(data.email || data.firstname || data.lastname || data.password)) {
+    if (!(data.email || data.firstname || data.lastname || data.password || data.username)) {
       res.status(404).send({
         success: false,
-        message: 'must supply email, password, firstname and lastname'
+        message: 'must supply email, password, firstname and lastname and username'
       });
     }
     const newUser = await userService.create(data);
