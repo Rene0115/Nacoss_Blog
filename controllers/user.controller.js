@@ -212,6 +212,72 @@ class UserController {
       data: users
     });
   }
+
+  async updateUsername(req, res) {
+    const user = await userService.findByEmail(req.body);
+    if (_.isEmpty(user)) {
+      return res.status(404).send({
+        success: false,
+        message: 'User with this email does not exist'
+      });
+    }
+    const newUsername = req.body.username;
+    const update = await user.updateOne({ username: newUsername });
+    if (!update) {
+      return res.status(404).send({
+        success: false,
+        mmessage: 'Something went wrong while updating your username'
+      });
+    }
+    return res.status(200).send({
+      success: true,
+      message: `Your new username is ${user.username}`
+    });
+  }
+
+  async updateFirstname(req, res) {
+    const user = await userService.findByEmail(req.body);
+    if (_.isEmpty(user)) {
+      return res.status(404).send({
+        success: false,
+        message: 'User with this email does not exist'
+      });
+    }
+    const newFirstname = req.body.firstname;
+    const update = await user.updateOne({ firstname: newFirstname });
+    if (!update) {
+      return res.status(404).send({
+        success: false,
+        mmessage: 'Something went wrong while updating your firstname'
+      });
+    }
+    return res.status(200).send({
+      success: true,
+      message: `Your new firstname is ${user.firstname}`
+    });
+  }
+
+  async updateLastname(req, res) {
+    const user = await userService.findByEmail(req.body);
+    if (_.isEmpty(user)) {
+      return res.status(404).send({
+        success: false,
+        message: 'User with this email does not exist'
+      });
+    }
+    const newLastname = req.body.lastname;
+    const update = await user.updateOne({ lastname: newLastname });
+    if (!update) {
+      return res.status(404).send({
+        success: false,
+        mmessage: 'Something went wrong while updating your lastname'
+      });
+    }
+    return res.status(200).send({
+      success: true,
+      message: `Your new lastname is ${user.lastname}`
+    });
+  }
 }
 
 export default new UserController();
