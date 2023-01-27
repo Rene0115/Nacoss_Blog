@@ -29,7 +29,7 @@ export const postTitleValidator = Joi.object({
 
 export const updateTitleValidator = Joi.object({
   id: Joi.string().required(),
-  category: Joi.string().required()
+  title: Joi.string().required()
 });
 
 export const updateCategoryValidator = Joi.object({
