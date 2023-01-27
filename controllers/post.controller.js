@@ -124,7 +124,7 @@ class PostController {
   }
 
   async getPosts(req, res) {
-    const post = await postService.getPost();
+    const post = await postService.getPosts();
     if (_.isEmpty(post)) {
       return res.status(200).send({ staus: true, message: 'no posts found' });
     }

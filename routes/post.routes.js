@@ -14,7 +14,7 @@ postRouter.get('/', postController.getPosts);
 
 postRouter.get('/getbyid', [authentication, validator(postIdValidator)], postController.getPostById);
 
-postRouter.post('/like', [authentication, validator(postIdValidator)], postController.like);
+postRouter.put('/like', [authentication, validator(postIdValidator)], postController.like);
 
 postRouter.get('/title', [authentication, validator(postTitleValidator)], postController.postByTitle);
 
