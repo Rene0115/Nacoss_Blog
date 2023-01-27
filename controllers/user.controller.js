@@ -162,13 +162,19 @@ class UserController {
       api_secret: process.env.API_SECRET
     });
     const result = await cloudinary.v2.uploader.upload(req.file.path);
-    const data = { photo: result.url };
+    const data = { image: result.url };
 
     const update = await userService.updateUserImage(req.body.id, data);
     if (update.acknowledged === true) {
-      return res.status(201).send({ status: true, message: 'image uploaded successfully' });
+      return res.status(201).send({
+        status: true,
+        message: 'image uploaded successfully'
+      });
     }
-    return res.status(200).send({ status: false, message: 'couldn\'t upload image...try again later!' });
+    return res.status(200).send({
+      status: false,
+      message: 'couldn\'t upload image...try again later!'
+    });
   }
 
   async verify(req, res) {
