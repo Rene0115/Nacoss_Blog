@@ -101,7 +101,7 @@ class PostController {
     }
     return res.status(200).send({
       success: true,
-      message: `Your new post title is ${post.title}`
+      message: `Your new post title is ${newTitle}`
     });
   }
 
@@ -137,7 +137,7 @@ class PostController {
     }
     return res.status(200).send({
       success: true,
-      message: 'Post category was updated successfully'
+      message: `Post category was changed to ${newCategory}`
     });
   }
 

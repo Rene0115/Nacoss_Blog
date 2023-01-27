@@ -12,18 +12,18 @@ import {
 
 const postRouter = express.Router();
 
-postRouter.post('/createpost', [authentication, store.single('image')], postController.createPost); // working
-postRouter.get('/', postController.getPosts); // working
+postRouter.post('/createpost', [authentication, store.single('image')], postController.createPost);
+postRouter.get('/', postController.getPosts);
 
-postRouter.get('/getbyid', [authentication, validator(postIdValidator)], postController.getPostById); // working
+postRouter.get('/getbyid', [authentication, validator(postIdValidator)], postController.getPostById);
 
-postRouter.put('/like', [authentication, validator(postIdValidator)], postController.like); // working
+postRouter.put('/like', [authentication, validator(postIdValidator)], postController.like);
 
-postRouter.get('/title', [authentication, validator(postTitleValidator)], postController.postByTitle); // working
+postRouter.get('/title', [authentication, validator(postTitleValidator)], postController.postByTitle);
 
-postRouter.delete('/delete', [authentication, validator(postIdValidator)], postController.deletePost); // working
+postRouter.delete('/delete', [authentication, validator(postIdValidator)], postController.deletePost);
 
-postRouter.get('/category', [authentication, validator(postCategoryValidator)], postController.getPostByCategories); // working
+postRouter.get('/category', [authentication, validator(postCategoryValidator)], postController.getPostByCategories);
 
 postRouter.put('/updatetitle', [authentication, validator(updateTitleValidator)], postController.updateTitle);
 
