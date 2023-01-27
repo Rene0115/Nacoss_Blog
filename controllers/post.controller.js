@@ -87,6 +87,29 @@ class PostController {
     });
   }
 
+  async dislike(req, res) {
+    const post = await postService.getPostById(req.body.id);
+    if (_.isEmpty(post)) {
+      res.status(404).send({
+        success: false,
+        message: 'Post does not exist'
+      });
+    }
+
+    if (post.likes <= 0) {
+      return res.status(200).send({
+        success: true,
+        message: 'This post was has not been liked'
+      });
+    }
+    post.likes -= 1;
+    await post.save();
+    return res.status(200).send({
+      success: true,
+      message: 'Post was disliked successfully.'
+    });
+  }
+
   async updateTitle(req, res) {
     const post = await postService.getPostById(req.body.id);
     const newTitle = req.body.title;
