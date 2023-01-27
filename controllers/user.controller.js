@@ -229,6 +229,7 @@ class UserController {
     }
     const newUsername = req.body.username;
     const update = await user.updateOne({ username: newUsername });
+    await user.save();
     if (!update) {
       return res.status(404).send({
         success: false,
@@ -251,6 +252,7 @@ class UserController {
     }
     const newFirstname = req.body.firstname;
     const update = await user.updateOne({ firstname: newFirstname });
+    await user.save();
     if (!update) {
       return res.status(404).send({
         success: false,
@@ -273,6 +275,7 @@ class UserController {
     }
     const newLastname = req.body.lastname;
     const update = await user.updateOne({ lastname: newLastname });
+    await user.save();
     if (!update) {
       return res.status(404).send({
         success: false,
