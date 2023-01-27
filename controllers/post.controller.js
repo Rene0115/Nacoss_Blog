@@ -19,11 +19,18 @@ class PostController {
       title: req.body.title,
       userId: req.user._id,
       body: req.body.body,
-      image: result.url
+      image: result.url,
+      category: req.body.category
     };
+    if (_.isEmpty(data.title || data.body || data.category)) {
+      return res.status(404).send({
+        success: false,
+        message: 'Title, Body and Category are required to create a post'
+      });
+    }
 
     if (req.user.verified === false) {
-      return res.status(400).send({
+      return res.status(404).send({
         success: false,
         message: 'Verify your account before attempting to create a post'
       });

@@ -2,18 +2,16 @@ import mongoose from 'mongoose';
 
 const postSchema = mongoose.Schema({
   title: {
-    type: String
-  },
-
-  views: {
-    default: 0,
-    type: Number
+    type: String,
+    required: true
   },
   category: {
-    type: String
+    type: String,
+    required: true
   },
   body: {
-    type: String
+    type: String,
+    required: true
   },
   userId: {
     required: true,
@@ -22,9 +20,13 @@ const postSchema = mongoose.Schema({
   },
   image: {
     type: String
+  },
+  likes: {
+    type: Number,
+    default: 0
   }
 
-}, { timestamps: true });
+}, { timestamps: true, versionKey: false });
 
 const postModel = mongoose.model('Post', postSchema);
 export default postModel;
