@@ -86,6 +86,84 @@ class PostController {
       message: `This post was liked ${post.likes} times.`
     });
   }
+
+  async updateTitle(req, res) {
+    const post = await postService.getPostById(req.body.id);
+    const newTitle = req.body.title;
+    if (_.isEmpty(post)) {
+      return res.status(404).send({
+        success: false,
+        message: 'Post with this Id does not exist.'
+      });
+    }
+    if (post) {
+      await post.updateOne({ title: newTitle });
+    }
+    return res.status(200).send({
+      success: true,
+      message: `Your new post title is ${post.title}`
+    });
+  }
+
+  async updatePostBody(req, res) {
+    const post = await postService.getPostById(req.body.id);
+    const newBody = req.body.body;
+    if (_.isEmpty(post)) {
+      return res.status(404).send({
+        success: false,
+        message: 'Post with this Id does not exist.'
+      });
+    }
+    if (post) {
+      await post.updateOne({ body: newBody });
+    }
+    return res.status(200).send({
+      success: true,
+      message: 'Post body was updated successfully'
+    });
+  }
+
+  async getPosts(req, res) {
+    const post = await postService.getPost();
+    if (_.isEmpty(post)) {
+      return res.status(200).send({ staus: true, message: 'no posts found' });
+    }
+    return res.status(200).send({
+      status: true,
+      data: post
+    });
+  }
+
+  async postByTitle(req, res) {
+    const post = await postService.findByTitle(req.body.title);
+
+    if (!post) {
+      return res.status(404).send({
+        success: false,
+        message: 'No post with this title exists'
+      });
+    }
+
+    return res.status(201).send({
+      success: true,
+      data: post
+    });
+  }
+
+  async getPostByCategories(req, res) {
+    const post = await postService.getPostByCategory(req.body.category);
+
+    if (!post) {
+      res.status(404).send({
+        status: false,
+        message: 'no post exists with this category'
+      });
+    }
+    res.status(200).send({
+      status: true,
+      data: post
+    });
+  }
 }
 
 export default new PostController();
