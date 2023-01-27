@@ -15,14 +15,6 @@ export const postvalidator2 = Joi.object({
   body: Joi.string().required()
 });
 
-export const draftPostSchema = Joi.object({
-  title: Joi.string(),
-  isPublished: Joi.string(),
-  category: Joi.string(),
-  body: Joi.string(),
-  _id: Joi.string()
-});
-
 export const postIdValidator = Joi.object({
   id: Joi.string().required()
 });
@@ -33,5 +25,20 @@ export const postCategoryValidator = Joi.object({
 
 export const postTitleValidator = Joi.object({
   title: Joi.string().required()
+});
+
+export const updateTitleValidator = Joi.object({
+  id: Joi.string().required(),
+  category: Joi.string().required()
+});
+
+export const updateCategoryValidator = Joi.object({
+  id: Joi.string().required(),
+  category: Joi.string().required()
+});
+
+export const updateBodyValidator = Joi.object({
+  id: Joi.string().required(),
+  body: Joi.string().required()
 });
 export default postvalidator;

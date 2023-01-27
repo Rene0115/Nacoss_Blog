@@ -105,7 +105,7 @@ class PostController {
     });
   }
 
-  async updatePostBody(req, res) {
+  async updateBody(req, res) {
     const post = await postService.getPostById(req.body.id);
     const newBody = req.body.body;
     if (_.isEmpty(post)) {
@@ -123,10 +123,31 @@ class PostController {
     });
   }
 
+  async updateCategory(req, res) {
+    const post = await postService.getPostById(req.body.id);
+    const newCategory = req.body.category;
+    if (_.isEmpty(post)) {
+      return res.status(404).send({
+        success: false,
+        message: 'Post with this Id does not exist.'
+      });
+    }
+    if (post) {
+      await post.updateOne({ category: newCategory });
+    }
+    return res.status(200).send({
+      success: true,
+      message: 'Post category was updated successfully'
+    });
+  }
+
   async getPosts(req, res) {
     const post = await postService.getPosts();
     if (_.isEmpty(post)) {
-      return res.status(200).send({ staus: true, message: 'no posts found' });
+      return res.status(200).send({
+        staus: true,
+        message: 'no posts found'
+      });
     }
     return res.status(200).send({
       status: true,
