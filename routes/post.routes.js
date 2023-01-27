@@ -19,6 +19,8 @@ postRouter.get('/getbyid', [authentication, validator(postIdValidator)], postCon
 
 postRouter.put('/like', [authentication, validator(postIdValidator)], postController.like);
 
+postRouter.put('/dislike', [authentication, validator(postIdValidator)], postController.dislike);
+
 postRouter.get('/title', [authentication, validator(postTitleValidator)], postController.postByTitle);
 
 postRouter.delete('/delete', [authentication, validator(postIdValidator)], postController.deletePost);
