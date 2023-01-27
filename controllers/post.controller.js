@@ -164,6 +164,21 @@ class PostController {
       data: post
     });
   }
+
+  async getPostById(req, res) {
+    const posts = await postService.getPostById(req.body.id);
+    if (_.isEmpty(posts)) {
+      return res.status(404).send({
+        status: false,
+        body: 'Post does not exist'
+      });
+    }
+
+    return res.status(200).send({
+      status: true,
+      data: posts
+    });
+  }
 }
 
 export default new PostController();
