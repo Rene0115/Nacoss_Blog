@@ -238,7 +238,7 @@ class UserController {
     }
     return res.status(200).send({
       success: true,
-      message: `Your new username is ${user.username}`
+      message: `Your new username is ${newUsername}`
     });
   }
 
@@ -261,7 +261,7 @@ class UserController {
     }
     return res.status(200).send({
       success: true,
-      message: `Your new firstname is ${user.firstname}`
+      message: `Your new firstname is ${newFirstname}`
     });
   }
 
@@ -284,7 +284,7 @@ class UserController {
     }
     return res.status(200).send({
       success: true,
-      message: `Your new lastname is ${user.lastname}`
+      message: `Your new lastname is ${newLastname}`
     });
   }
 }
