@@ -49,6 +49,7 @@ class CommentController {
 
   async editComment(req, res) {
     const comment = await commentServices.getComment(req.body.id);
+
     if (_.isEmpty(comment) || !comment) {
       return res.status(404).send({
         success: false,

@@ -9,7 +9,7 @@ class CommentServices {
   }
 
   async getComment(id) {
-    const comment = await commentModel.find({ _id: id });
+    const comment = await commentModel.findById(id);
     return comment;
   }
 
