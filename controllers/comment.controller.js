@@ -19,7 +19,7 @@ class CommentController {
       });
     }
 
-    const comment = commentServices.postComment(data);
+    const comment = await commentServices.postComment(data);
     if (!comment) {
       return res.status(404).send({
         success: false,
