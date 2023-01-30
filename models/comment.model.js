@@ -8,7 +8,8 @@ const commentSchema = mongoose.Schema({
   },
   username: {
     required: true,
-    type: String
+    type: String,
+    ref: 'User'
 
   },
   likes: {
@@ -21,7 +22,8 @@ const commentSchema = mongoose.Schema({
   },
   userId: {
     required: true,
-    type: String
+    type: String,
+    ref: 'User'
   }
 
 }, { timeStamps: true });
