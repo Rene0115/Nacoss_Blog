@@ -9,13 +9,13 @@ class CommentServices {
   }
 
   async getComment(id) {
-    const comment = await commentModel.find({ articleId: id });
+    const comment = await commentModel.find({ _id: id });
     return comment;
   }
 
-  async getUserReactions(id) {
-    const comments = await commentModel.find({ editorsId: id });
-    return comments;
+  async deleteComment(id) {
+    const comment = await commentModel.findByIdAndDelete(id);
+    return comment;
   }
 }
 export default new CommentServices();

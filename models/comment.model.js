@@ -6,14 +6,14 @@ const commentSchema = mongoose.Schema({
     type: String
 
   },
-  name: {
+  username: {
     required: true,
     type: String
 
   },
-  email: {
-    required: true,
-    type: String
+  likes: {
+    type: Number,
+    default: 0
   },
   postId: {
     required: true,
