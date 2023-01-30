@@ -1,7 +1,8 @@
+/* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-underscore-dangle */
 import _ from 'lodash';
-import commentServices from '../services/comment.services';
+import commentServices from '../services/comment.services.js';
 
 class CommentController {
   async createComment(req, res) {
