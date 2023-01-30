@@ -6,12 +6,6 @@ const commentSchema = mongoose.Schema({
     type: String
 
   },
-  username: {
-    required: true,
-    type: String,
-    ref: 'User'
-
-  },
   likes: {
     type: Number,
     default: 0
@@ -26,7 +20,7 @@ const commentSchema = mongoose.Schema({
     ref: 'User'
   }
 
-}, { timeStamps: true });
+}, { timeStamps: true, versionKey: false });
 
 const commentModel = mongoose.model('Comments', commentSchema);
 export default commentModel;

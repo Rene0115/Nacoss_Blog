@@ -8,10 +8,10 @@ class CommentController {
   async createComment(req, res) {
     const data = {
       comment: req.body.comment,
-      username: req.user.username,
       postId: req.body.postId,
       userId: req.user._id
     };
+
     if (req.user.verified === false) {
       return res.status(404).send({
         success: false,

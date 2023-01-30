@@ -14,7 +14,7 @@ const authentication = (req, res, next) => {
       logger.error(err);
       return res.status(403).send({
         success: false,
-        message: 'forbidden'
+        message: 'Authentication error'
       });
     }
     req.user = user;
