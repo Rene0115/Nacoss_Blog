@@ -8,7 +8,7 @@ class CommentServices {
     return comment;
   }
 
-  async getComment(id) {
+  async getCommentbyId(id) {
     const comment = await commentModel.findById(id);
     return comment;
   }
@@ -16,6 +16,16 @@ class CommentServices {
   async deleteComment(id) {
     const comment = await commentModel.findByIdAndDelete(id);
     return comment;
+  }
+
+  async getPostComments(id) {
+    const comments = await commentModel.find({ postId: id });
+    return comments;
+  }
+
+  async getComments() {
+    const comments = await commentModel.find();
+    return comments;
   }
 }
 export default new CommentServices();

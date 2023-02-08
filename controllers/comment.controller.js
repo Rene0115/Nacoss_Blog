@@ -1,3 +1,5 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
 /* eslint-disable import/extensions */
 /* eslint-disable class-methods-use-this */
 /* eslint-disable no-underscore-dangle */
@@ -34,7 +36,7 @@ class CommentController {
   }
 
   async findCommentById(req, res) {
-    const comment = await commentServices.getComment(req.body.id);
+    const comment = await commentServices.getCommentbyId(req.body.id);
     if (_.isEmpty(comment)) {
       return res.status(404).send({
         success: false,
@@ -48,7 +50,7 @@ class CommentController {
   }
 
   async editComment(req, res) {
-    const comment = await commentServices.getComment(req.body.id);
+    const comment = await commentServices.getCommentbyId(req.body.id);
 
     if (_.isEmpty(comment) || !comment) {
       return res.status(404).send({

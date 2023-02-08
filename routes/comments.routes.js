@@ -9,7 +9,7 @@ import createCommentValidator, { commentIdValidator, updateCommentValidator } fr
 const commentRouter = express.Router();
 
 commentRouter.post('/createcomment', [authentication, validator(createCommentValidator)], commentController.createComment);
-commentRouter.put('/editcomment', [validator(updateCommentValidator)], commentController.editComment);
-commentRouter.delete('/deletecomment', [validator(commentIdValidator)], commentController.deleteComment);
+commentRouter.put('/editcomment', [authentication, validator(updateCommentValidator)], commentController.editComment);
+commentRouter.delete('/deletecomment', [authentication, validator(commentIdValidator)], commentController.deleteComment);
 
 export default commentRouter;
