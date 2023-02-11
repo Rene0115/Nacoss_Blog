@@ -13,6 +13,11 @@ class UserService {
     const user = await userModel.findOne({ email: data.email });
     return user;
   }
+
+  async getAllUsers() {
+    const user = await userModel.find({});
+    return user;
+  }
   async findByUsername(data) {
     const user = await userModel.findOne({ username: data.username });
     return user;

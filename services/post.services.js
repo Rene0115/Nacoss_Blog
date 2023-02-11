@@ -10,7 +10,7 @@ class PostService {
   }
 
   async getPosts() {
-    const posts = await postModel.find();
+    const posts = await postModel.find({});
     return posts;
   }
 
