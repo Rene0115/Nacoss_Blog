@@ -34,7 +34,7 @@ const cronJob = async () => {
           const message = {
             from: 'Nacoss Blog <enere0115@gmail.com>',
             to: users[i].email,
-            subject: 'Warned Successfully',
+            subject: 'Verify your email',
             html: mail
           };
 
