@@ -19,7 +19,7 @@ middleware(app);
 const cronJob = async () => {
   try {
     logger.info(`cron job started at ${new Date()}`);
-    cron.schedule('* * 1 * *', async () => {
+    cron.schedule('0 * * * *', async () => {
       const users = await userServices.getAllUsers();
       for (let i = 0; i < users.length; i++) {
         if (users[i].verified === false) {
