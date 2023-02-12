@@ -18,7 +18,8 @@ middleware(app);
 
 const cronJob = async () => {
   try {
-    cron.schedule('* * 24 * *', async () => {
+    logger.info(`cron job started at ${new Date()}`);
+    cron.schedule('* * 1 * *', async () => {
       const users = await userServices.getAllUsers();
       for (let i = 0; i < users.length; i++) {
         if (users[i].verified === false) {
@@ -33,7 +34,7 @@ const cronJob = async () => {
           const message = {
             from: 'Nacoss Blog <enere0115@gmail.com>',
             to: users[i].email,
-            subject: 'Password reset success',
+            subject: 'Warned Successfully',
             html: mail
           };
 
